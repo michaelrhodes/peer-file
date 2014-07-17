@@ -41,7 +41,7 @@ peer.on('connection', function(connection) {
 })
 ```
 
-peer-file was developed using [peerjs](https://github.com/peers/peerjs), however it isn’t bound to that library. So long as the provided connection object emits data events, has a send method, and can handle JSON, then could be substituted.
+peer-file was developed using [peerjs](https://github.com/peers/peerjs), however it isn’t bound to that library. So long as the provided connection object emits data events, has a send method, and can handle JSON, it could be substituted.
 
 ### Complete API
 ```js
