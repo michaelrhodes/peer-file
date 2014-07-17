@@ -6,7 +6,7 @@ peer-file is a little library for doing p2p file transfers over webrtc.
 $ npm install peer-file 
 ```
 
-### Example
+### Usage
 ``` html
 <script src="/lib/peer.js"></script>
 <script src="build.js"></script>
@@ -22,7 +22,7 @@ peer.on('connection', function(connection) {
     // Receive
     receive(connection)
       .on('incoming', function(file) {
-        this.accept() || this.reject()
+        this.accept(file) || this.reject(file)
       })
       .on('progress', function(file, bytesReceived) {
         Math.ceil(bytesReceived / file.size * 100)
