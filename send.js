@@ -48,6 +48,8 @@ PeerFileSend.prototype.pause = function() {
     this.stream.pause()
     this.emit('pause')
   }
+
+  return this
 }
 
 PeerFileSend.prototype.resume = function() {
@@ -55,6 +57,8 @@ PeerFileSend.prototype.resume = function() {
     this.stream.resume()
     this.emit('resume')
   }
+
+  return this
 }
 
 PeerFileSend.prototype.accept = function() {
@@ -98,6 +102,8 @@ PeerFileSend.prototype.accept = function() {
   this.stream.on('progress', function(completed) {
     this.emit('progress', completed)
   }.bind(this))
+
+  return this
 }
 
 PeerFileSend.prototype.reject = function() {
@@ -106,6 +112,8 @@ PeerFileSend.prototype.reject = function() {
   this.stream ?
     this.cancel() :
     this.emit('reject')
+
+  return this
 }
 
 PeerFileSend.prototype.cancel = function() {
@@ -116,6 +124,8 @@ PeerFileSend.prototype.cancel = function() {
   setTimeout(function() {
     this.emit('cancel')
   }.bind(this))
+
+  return this
 }
 
 module.exports = PeerFileSend

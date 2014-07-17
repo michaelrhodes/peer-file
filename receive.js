@@ -63,6 +63,8 @@ PeerFileReceive.prototype.accept = function(file) {
   this.connection.send({
     type: 'file:accept'
   })
+
+  return this
 }
 
 PeerFileReceive.prototype.reject = function(file) {
@@ -70,24 +72,32 @@ PeerFileReceive.prototype.reject = function(file) {
   this.connection.send({
     type: 'file:reject'
   })
+
+  return this
 }
 
 PeerFileReceive.prototype.pause = function(file) {
   this.connection.send({
     type: 'file:pause'
   })
+
+  return this
 }
 
 PeerFileReceive.prototype.resume = function(file) {
   this.connection.send({
     type: 'file:resume'
   })
+
+  return this
 }
 
 PeerFileReceive.prototype.cancel = function(file) {
   this.connection.send({
     type: 'file:cancel'
   })
+
+  return this
 }
 
 module.exports = PeerFileReceive

@@ -52,6 +52,9 @@ peerfile.send(connection, file)
   .on('progress', function(bytesSent) {})
   .on('complete', function() {})
   .on('cancel', function() {})
+  .pause()
+  .resume()
+  .cancel()
 
 // Long running
 peerfile.receive(connection)
@@ -59,6 +62,11 @@ peerfile.receive(connection)
   .on('progress', function(file, bytesReceived) {})
   .on('complete', function(file) {})
   .on('cancel', function(file) {})
+  .accept(file)
+  .reject(file)
+  .pause(file)
+  .resume(file)
+  .cancel(file)
 ```
 
 ### License
