@@ -9,14 +9,14 @@ var file = new Blob([fs.readFileSync('./fixtures/sample.txt', 'utf-8')], {
 })
 
 // Accept
-run('can accept', function(test) {
+run('receiver can accept', function(test) {
   var connection = fauxnnection()
   test.plan(2)
 
   receive(connection)
     .on('incoming', function(file) {
       test.pass('got incoming file')
-      setTimeout(this.accept.bind(this, file))
+      this.accept(file)
     })
 
   send(connection, file)
@@ -25,14 +25,14 @@ run('can accept', function(test) {
 })
 
 // Reject
-run('can reject', function(test) {
+run('receiver can reject', function(test) {
   var connection = fauxnnection()
   test.plan(2)
 
   receive(connection)
     .on('incoming', function(file) {
       test.pass('got incoming file')
-      setTimeout(this.reject.bind(this, file))
+      this.reject(file)
     })
 
   send(connection, file)
@@ -40,8 +40,8 @@ run('can reject', function(test) {
     .on('accept', function() { test.fail('it was accepted') })
 })
 
-// Pause/Resume
-run('can pause and resume', function(test) {
+// RecePause/Resume
+run('receiver can pause and resume', function(test) {
   var connection = fauxnnection()
   test.plan(2)
 
@@ -73,4 +73,77 @@ run('can pause and resume', function(test) {
     })
 
   send(connection, file)
+})
+
+run('sender can pause and resume', function(test) {
+  var connection = fauxnnection()
+  test.plan(2)
+
+  var timeout = null
+  var beenPaused = false
+
+  receive(connection)
+    .on('incoming', function(file) {
+      this.accept(file)
+    })
+    .on('complete', function(file) {
+      var blob = new Blob(file.data, { type: file.type })
+      test.equal(blob.size, file.size, 'it resumed')
+    })
+
+  send(connection, file)
+    .on('progress', function(file, bytesReceived) {
+      if (!beenPaused) {
+        if (timeout !== null) {
+          test.fail('it didn’t pause')
+          return
+        }
+
+        this.pause(file)
+        timeout = setTimeout(function() {
+          beenPaused = true
+          test.pass('it paused')
+          this.resume(file) 
+        }.bind(this), 100)
+      }
+    })
+})
+
+// Cancel
+run('receiver can cancel', function(test) {
+  var connection = fauxnnection()
+  test.plan(2)
+
+  receive(connection)
+    .on('incoming', function(file) {
+      this.accept(file)
+    })
+    .on('progress', function(file) {
+      test.pass('progress ran once')
+      this.cancel(file)
+    })
+
+  send(connection, file)
+    .on('cancel', function(file) {
+      test.pass('it was cancelled')
+    })
+})
+
+run('sender can cancel', function(test) {
+  var connection = fauxnnection()
+  test.plan(2)
+
+  receive(connection)
+    .on('incoming', function(file) {
+      this.accept(file)
+    })
+    .on('cancel', function(file) {
+      test.pass('it was cancelled')
+    })
+
+  send(connection, file)
+    .on('progress', function(file) {
+      test.pass('progress ran once')
+      this.cancel(file)
+    })
 })
