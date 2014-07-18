@@ -4,7 +4,7 @@ var send = require('../send')
 var receive = require('../receive')
 var fauxnnection = require('./lib/fauxnnection')
 
-var file = new Blob([fs.readFileSync('./fixtures/sample.txt', 'utf-8')], {
+var file = new Blob([fs.readFileSync('./test/fixtures/sample.txt', 'utf-8')], {
   type: 'text/plain'
 })
 
