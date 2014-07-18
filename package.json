@@ -4,7 +4,17 @@
   "description": "A little library for doing p2p file transfers over webrtc.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/*.js"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": {
+      "ie/latest",
+      "chrome/latest",
+      "firefox/latest",
+      "safari/latest",
+      "opera/latest"
+    }
   },
   "repository": {
     "type": "git",
@@ -31,5 +41,8 @@
     "filereader-stream": "^0.1.1",
     "inherits": "^2.0.1",
     "uuid": "^1.4.1"
+  },
+  "devDependencies": {
+    "tape": "^2.13.3"
   }
 }
