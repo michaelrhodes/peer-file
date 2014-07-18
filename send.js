@@ -87,7 +87,7 @@ PeerFileSend.prototype.accept = function() {
       })
 
       // Stop listening to receiver.
-      this.connection.off('data', this.handle)
+      this.connection.removeListener('data', this.handle)
 
       if (!cancelled) {
         this.emit('complete')
