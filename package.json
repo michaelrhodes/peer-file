@@ -1,6 +1,6 @@
 {
   "name": "peer-file",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A little library for doing p2p file transfers over webrtc.",
   "main": "index.js",
   "scripts": {
