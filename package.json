@@ -1,10 +1,23 @@
 {
   "name": "peer-file",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A little library for doing p2p file transfers over webrtc.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/*.js"
+  },
+  "browserify": {
+    "transform": ["brfs"]
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/latest",
+      "chrome/latest",
+      "firefox/latest",
+      "safari/latest",
+      "opera/latest"
+    ]
   },
   "repository": {
     "type": "git",
@@ -31,5 +44,9 @@
     "filereader-stream": "^0.1.1",
     "inherits": "^2.0.1",
     "uuid": "^1.4.1"
+  },
+  "devDependencies": {
+    "brfs": "^1.1.2",
+    "tape": "^2.13.3"
   }
 }

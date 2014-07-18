@@ -60,18 +60,24 @@ PeerFileReceive.prototype.handle = function(data) {
 
 PeerFileReceive.prototype.accept = function(file) {
   this.received[file.id].accepted = true
-  this.connection.send({
-    type: 'file:accept'
-  })
+
+  setTimeout(function() {
+    this.connection.send({
+      type: 'file:accept'
+    })
+  }.bind(this))
 
   return this
 }
 
 PeerFileReceive.prototype.reject = function(file) {
   this.received[file.id].accepted = false
-  this.connection.send({
-    type: 'file:reject'
-  })
+
+  setTimeout(function() {
+    this.connection.send({
+      type: 'file:reject'
+    })
+  }.bind(this))
 
   return this
 }
@@ -93,6 +99,9 @@ PeerFileReceive.prototype.resume = function(file) {
 }
 
 PeerFileReceive.prototype.cancel = function(file) {
+  file.cancelled = true
+  this.received[file.id] = file
+
   this.connection.send({
     type: 'file:cancel'
   })
