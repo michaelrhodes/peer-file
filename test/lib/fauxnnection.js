@@ -13,8 +13,4 @@ Fauxnnection.prototype.send = function(data) {
   this.emit('data', data)
 }
 
-Fauxnnection.prototype.off = function() {
-  this.removeListener.apply(this, arguments)
-}
-
 module.exports = Fauxnnection

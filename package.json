@@ -6,6 +6,9 @@
   "scripts": {
     "test": "tape test/*.js"
   },
+  "browserify": {
+    "transform": ["brfs"]
+  },
   "testling": {
     "files": "test/*.js",
     "browsers": [
@@ -43,6 +46,7 @@
     "uuid": "^1.4.1"
   },
   "devDependencies": {
+    "brfs": "^1.1.2",
     "tape": "^2.13.3"
   }
 }

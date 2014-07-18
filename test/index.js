@@ -1,9 +1,10 @@
 var run = require('tape')
+var fs = require('fs')
 var send = require('../send')
 var receive = require('../receive')
 var fauxnnection = require('./lib/fauxnnection')
 
-var file = new Blob(['Hello'], {
+var file = new Blob([fs.readFileSync('./fixtures/sample.txt', 'utf-8')], {
   type: 'text/plain'
 })
 
@@ -14,13 +15,13 @@ run('can accept', function(test) {
 
   receive(connection)
     .on('incoming', function(file) {
-      test.pass(true, 'got incoming file')
+      test.pass('got incoming file')
       setTimeout(this.accept.bind(this, file))
     })
 
   send(connection, file)
-    .on('accept', function() { test.pass(true, 'accepted') }) 
-    .on('reject', function() { test.fail(false, 'rejected') }) 
+    .on('accept', function() { test.pass('it was accepted') }) 
+    .on('reject', function() { test.fail('it was rejected') }) 
 })
 
 // Reject
@@ -30,11 +31,46 @@ run('can reject', function(test) {
 
   receive(connection)
     .on('incoming', function(file) {
-      test.pass(true, 'got incoming file')
+      test.pass('got incoming file')
       setTimeout(this.reject.bind(this, file))
     })
 
   send(connection, file)
-    .on('reject', function() { test.pass(true, 'rejected') }) 
-    .on('accept', function() { test.fail(false, 'accepted') })
+    .on('reject', function() { test.pass('it was rejected') }) 
+    .on('accept', function() { test.fail('it was accepted') })
+})
+
+// Pause/Resume
+run('can pause and resume', function(test) {
+  var connection = fauxnnection()
+  test.plan(2)
+
+  var timeout = null
+  var beenPaused = false
+
+  receive(connection)
+    .on('incoming', function(file) {
+      this.accept(file)
+    })
+    .on('progress', function(file, bytesReceived) {
+      if (!beenPaused) {
+        if (timeout !== null) {
+          test.fail('it didn’t pause')
+          return
+        }
+
+        this.pause(file)
+        timeout = setTimeout(function() {
+          beenPaused = true
+          test.pass('it paused')
+          this.resume(file) 
+        }.bind(this), 100)
+      }
+    })
+    .on('complete', function(file) {
+      var blob = new Blob(file.data, { type: file.type })
+      test.equal(blob.size, file.size, 'it resumed')
+    })
+
+  send(connection, file)
 })
