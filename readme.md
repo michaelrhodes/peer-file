@@ -1,6 +1,8 @@
 # peer-file
 peer-file is a little library for doing p2p file transfers over webrtc. 
 
+[![Browser support](https://ci.testling.com/michaelrhodes/peer-file.png)](https://ci.testling.com/michaelrhodes/peer-file)
+
 ## Install
 ```sh
 $ npm install peer-file 
