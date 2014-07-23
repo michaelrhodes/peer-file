@@ -1,6 +1,6 @@
 {
   "name": "peer-file",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A little library for doing p2p file transfers over webrtc.",
   "main": "index.js",
   "scripts": {
@@ -43,10 +43,10 @@
   "dependencies": {
     "filereader-stream": "^0.1.1",
     "inherits": "^2.0.1",
-    "uuid": "^1.4.1"
+    "uuid": "^1.4.1",
+    "brfs": "^1.1.2"
   },
   "devDependencies": {
-    "brfs": "^1.1.2",
     "tape": "^2.13.3"
   }
 }
