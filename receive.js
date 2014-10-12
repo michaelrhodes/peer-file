@@ -1,5 +1,4 @@
-var inherits = require('inherits')
-var EventEmitter = require('events').EventEmitter
+var emitter = require('emitter-component')
 
 var PeerFileReceive = function(connection) {
   if (!(this instanceof PeerFileReceive)) {
@@ -13,7 +12,7 @@ var PeerFileReceive = function(connection) {
   this.connection.on('data', this.handle)
 }
 
-inherits(PeerFileReceive, EventEmitter)
+emitter(PeerFileReceive.prototype)
 
 PeerFileReceive.prototype.handle = function(data) {
   var acceptable = /^file:(start|chunk|end|cancel)$/
