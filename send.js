@@ -1,14 +1,13 @@
-var uuid = require('uuid')
+var uuid = require('portable-uuid')
 var read = require('filereader-stream')
-var inherits = require('inherits')
-var EventEmitter = require('events').EventEmitter
+var emitter = require('emitter-component')
 
 var PeerFileSend = function(connection, file) {
   if (!(this instanceof PeerFileSend)) {
     return new PeerFileSend(connection, file)
   }
 
-  this.id = uuid.v4()
+  this.id = uuid()
   this.connection = connection
   this.file = file
   this.chunkSize = 40 * 1000
@@ -31,7 +30,7 @@ var PeerFileSend = function(connection, file) {
   })
 }
 
-inherits(PeerFileSend, EventEmitter)
+emitter(PeerFileSend.prototype)
 
 PeerFileSend.prototype.handle = function(data) {
   var acceptable = /^file:(accept|reject|pause|resume|cancel)$/

@@ -1,5 +1,4 @@
-var inherits = require('inherits')
-var EventEmitter = require('events').EventEmitter
+var emitter = require('emitter-component')
 
 var Fauxnnection = function() {
   if (!(this instanceof Fauxnnection)) {
@@ -7,7 +6,7 @@ var Fauxnnection = function() {
   }
 }
 
-inherits(Fauxnnection, EventEmitter)
+emitter(Fauxnnection.prototype)
 
 Fauxnnection.prototype.send = function(data) {
   this.emit('data', data)

@@ -7,7 +7,9 @@
     "test": "tape test/*.js"
   },
   "browserify": {
-    "transform": ["brfs"]
+    "transform": [
+      "brfs"
+    ]
   },
   "testling": {
     "files": "test/*.js",
@@ -41,12 +43,12 @@
   },
   "homepage": "https://github.com/michaelrhodes/peer-file",
   "dependencies": {
-    "filereader-stream": "^0.1.1",
-    "inherits": "^2.0.1",
-    "uuid": "^1.4.1",
-    "brfs": "^1.1.2"
+    "brfs": "^1.1.2",
+    "emitter-component": "^1.1.1",
+    "filereader-stream": "git://github.com/michaelrhodes/filereader-stream",
+    "portable-uuid": "^0.1.0"
   },
   "devDependencies": {
-    "tape": "^2.13.3"
+    "tape": "^3.0.0"
   }
 }
