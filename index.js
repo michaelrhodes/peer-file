@@ -22,17 +22,17 @@ peer.on('open', function(id) {
       })
 
     p.innerHTML = 'Give this URL to someone: ' + url.link(url)
-    document.body.appendChild(p)
   }
 
+  document.body.appendChild(p)
   document.body.appendChild(label)
   document.body.appendChild(input)
 })
 
 var init = function(connection) {
   connection.on('open', function() {
-    label.textContent = 'Send a file to ' + connection.id
-    p.style.display = 'none'
+    label.textContent = 'Send a file to ' + connection.peer
+    p.innerHTML = ''
     input.style.display = 'block'
 
 
@@ -45,15 +45,12 @@ var init = function(connection) {
       })
       .on('progress', function(file, bytesReceived) {
         var percentage = Math.ceil(bytesReceived / file.size * 100)
-        document.title = 'Downloaded ' + percentage + '% of ' + file.name
+        p.textContent = 'Downloaded ' + percentage + '% of “' + file.name + '”'
       })
       .on('complete', function(file) {
-        var anchor = document.createElement('a')
         var binary = new Blob(file.data, { type: file.type })
-        anchor.href = URL.createObjectURL(binary)
-        anchor.download =
-        anchor.textContent = file.name
-        document.body.appendChild(anchor)
+        var href = URL.createObjectURL(binary)
+        p.innerHTML = 'Downloaded “' + file.name.link(href) + '”'
       })
 
     // Send 
@@ -62,7 +59,7 @@ var init = function(connection) {
       send(connection, file)
         .on('progress', function(bytesSent) {
           var percentage = Math.ceil(bytesSent / file.size * 100)
-          document.title = 'Sent ' + percentage + '% of ' + file.name
+          p.textContent = 'Sent ' + percentage + '% of “' + file.name + '”'
         })
     }
   })
