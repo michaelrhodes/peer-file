@@ -47,7 +47,8 @@ PeerFileReceive.prototype.handle = function(data) {
     this.emit('progress', file, receivedBytes)
   }
 
-  else if (data.type === 'file:end' && file.accepted) { 
+  else if (data.type === 'file:end' && file.accepted) {
+    this.emit('progress', file, file.size)
     this.emit('complete', file)
   }
 

@@ -122,6 +122,9 @@ run('receiver can cancel', function(test) {
       test.pass('progress ran once')
       this.cancel(file)
     })
+    .on('complete', function(file) {
+      test.fail('complete ran')
+    })
 
   send(connection, file)
     .on('cancel', function(file) {
