@@ -81,12 +81,17 @@ PeerFileSend.prototype.accept = function() {
       // Stop listening to receiver.
       this.connection.removeListener('data', this.handle)
 
+      if (this.cancelled) {
+        return
+      }
+
       // Tell receiver that this is the end.
       this.connection.send({
         type: 'file:end',
         id: this.id
       })
 
+      this.emit('progress', this.file.size)
       this.emit('complete')
     }.bind(this)
   })
@@ -113,6 +118,8 @@ PeerFileSend.prototype.reject = function() {
 }
 
 PeerFileSend.prototype.cancel = function() {
+  this.cancelled = true
+
   setTimeout(function() {
     if (this.stream) {
       this.stream.abort()
