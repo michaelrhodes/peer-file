@@ -2,12 +2,13 @@ var send = require('peer-file/send')
 var receive = require('peer-file/receive')
 var state = require('history-state')({ hash: true })
 var peer = require('peerjs')(null, { key: '5eqjv36bbwamunmi' })
-var label, input, p, you
+var form, label, input, p, you
 
 peer.on('open', function(id) {
   you = id
 
   p = document.createElement('p')
+  form = document.createElement('form')
   label = document.createElement('label')
   input = document.createElement('input')
   input.type = 'file'
@@ -24,9 +25,10 @@ peer.on('open', function(id) {
     p.innerHTML = 'Give this URL to someone: ' + url.link(url)
   }
 
+  form.appendChild(label)
+  form.appendChild(input)
   document.body.appendChild(p)
-  document.body.appendChild(label)
-  document.body.appendChild(input)
+  document.body.appendChild(form)
 })
 
 var init = function(connection) {
@@ -50,9 +52,9 @@ var init = function(connection) {
       .on('complete', function(file) {
         var binary = new Blob(file.data, { type: file.type })
         var href = (URL || webkitURL).createObjectURL(binary)
+        var anchor = document.createElement('a')
         setTimeout(function() {
           p.innerHTML = 'Download '
-          var anchor = document.createElement('a')
           anchor.href = href
           anchor.target = '_blank'
           anchor.textContent = file.name
@@ -68,6 +70,7 @@ var init = function(connection) {
           var percentage = Math.ceil(bytesSent / file.size * 100)
           p.textContent = 'Sent ' + percentage + '% of “' + file.name + '”'
         })
+      form.reset()
     }
   })
 }
