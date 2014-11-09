@@ -49,8 +49,15 @@ var init = function(connection) {
       })
       .on('complete', function(file) {
         var binary = new Blob(file.data, { type: file.type })
-        var href = URL.createObjectURL(binary)
-        p.innerHTML = 'Downloaded “' + file.name.link(href) + '”'
+        var href = (URL || webkitURL).createObjectURL(binary)
+        setTimeout(function() {
+          p.innerHTML = 'Download '
+          var anchor = document.createElement('a')
+          anchor.href = href
+          anchor.target = '_blank'
+          anchor.textContent = file.name
+          p.appendChild(anchor)
+        })
       })
 
     // Send 
