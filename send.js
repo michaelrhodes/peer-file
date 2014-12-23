@@ -11,7 +11,7 @@ var PeerFileSend = function(connection, file) {
   this.id = uuid.v4()
   this.connection = connection
   this.file = file
-  this.chunkSize = 40 * 1000
+  this.chunkSize = Math.pow(2, 13)
   this.totalChunks = Math.ceil(this.file.size / this.chunkSize)
   this.stream = null
 
