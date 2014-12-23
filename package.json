@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/michaelrhodes/peer-file",
   "dependencies": {
-    "filereader-stream": "^0.1.1",
+    "filereader-stream": "^0.2.0",
     "inherits": "^2.0.1",
     "uuid": "^1.4.1",
     "brfs": "^1.1.2"
